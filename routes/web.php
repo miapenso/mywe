@@ -16,6 +16,8 @@ Route::get('/', 'Home\HomeController@index');
 /**
  * 前台 首页
  */
+Route::get('/', 'Home\HomeController@index')->middleware('checkUserLogin');
+
 Route::group([ 'prefix' => 'home', 'middleware' => ['checkUserLogin'] ], function () {
     Route::get('/', 'Home\HomeController@index');
     Route::get('/test', 'Home\HomeController@test');

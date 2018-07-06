@@ -1,0 +1,10 @@
+.login-panel .title {
+    margin-bottom: 0;
+}
+.login-panel .login_error {
+    height:30px;
+    line-height:30px;
+}
+.login-panel .login_error_red {
+    color: red;
+}
