@@ -121,9 +121,14 @@
                     this.msg = '';
                 }
                 var fromData = $("#form1").serialize();
-                console.log(fromData);
                 $.post('{{url('login/dologin')}}',fromData,function(result){
-                    console.log(result)
+
+                   if(result.status == true){
+                       console.log(result);
+                        window.location.href="/test";
+                   } else {
+                       alert(result.message);
+                   }
                 },'json');
             },
             updateCaptcha : function (event) {

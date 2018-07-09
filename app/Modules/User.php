@@ -1,17 +1,32 @@
 <?php
 namespace App\Modules;
 
-use Illuminate\Http\Request;
+use App\Modules\Oauth\Oauth2;
 
 
-class User {
-
+class User
+{
     /**
      * 用户模块
      */
     public function __construct() {}
-    public function doLogin($post = array()){
 
+    /**
+     * 检查登录
+     * @param array $post
+     * @return string
+     */
+    public function checkLogin($post = array()){
+
+        $loginTypeArray = array('system', 'mobile');
+        $selectLoginType = isset($post['login_type'])?$post['login_type'] : '';
+        if( !in_array($selectLoginType,$loginTypeArray) ){
+            $post['login_type'] = 'system';
+        }
+        $client = new Oauth2($post);
+        $doLogin = $client->doLogin();
+        return $doLogin;
     }
+
 
 }

@@ -16,8 +16,9 @@ class CheckUserLogin
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        $isLogin = true;
-        if($isLogin){
+        $isLogin = false;
+
+        if(!$isLogin){
             return redirect('login');
         }
         return $next($request);

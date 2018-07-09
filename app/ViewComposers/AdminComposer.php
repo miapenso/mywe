@@ -2,16 +2,18 @@
 namespace App\ViewComposers;
 
 use App\Libs\CommonUtils;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class AdminComposer
 {
-    protected $data;
+    protected $menus;
+    protected $coreSetting;
 
-    public function __construct(Request $request)
+    public function __construct()
     {
-        $this->data = new CommonUtils($request);
+        $commonUtils = new CommonUtils();
+        $this->menus = $commonUtils->getMenus();
+        $this->coreSetting = $commonUtils->getCoreSetting();
     }
 
     /**
@@ -23,8 +25,8 @@ class AdminComposer
     public function compose(View $view)
     {
         $view->with([
-            'menus' => $this->data->menus,
-            'coreSetting' => $this->data->coreSetting,
+            'menus' => $this->menus,
+            'coreSetting' => $this->coreSetting,
         ]);
     }
 

@@ -85,3 +85,15 @@ function iunserializer($value) {
         return $result;
     }
 }
+/**
+ * 生成密码
+ * @param string $password
+ * @param string $salt
+ * @param string $authkey
+ * @return string
+ */
+function generatePassword($password='', $salt='', $key='' ){
+    $_array = array($password,$salt,$key);
+    $sha1Password = implode('-',$_array);
+    return sha1($sha1Password);
+}
