@@ -26,11 +26,11 @@
             <div v-bind:class="{ login_error_red: isShowError } " class="login_error">@{{ msg }}</div>
             <input type="hidden" name="_token" value="{{csrf_token()}}">
             <div v-if="isSystem" class="input-group-vertical">
-                <input v-model="inputtext.login_type" name="login_type" type="hidden" class="form-control " >
-                <input v-model="inputtext.username" name="username" type="text" class="form-control " placeholder="请输入用户名登录" >
-                <input v-model="inputtext.password" name="password" type="password" class="form-control password" placeholder="请输入登录密码">
+                <input name="login[login_type]" type="hidden" class="form-control " value="system" >
+                <input v-model="inputtext.username" name="login[username]" type="text" class="form-control " placeholder="请输入用户名登录" >
+                <input v-model="inputtext.password" name="login[password]" type="password" class="form-control password" placeholder="请输入登录密码">
                 <div v-if="isCode" class="input-group" >
-                    <input v-model="inputtext.verify" name="verify" type="text" class="form-control" placeholder="请输入验证码">
+                    <input v-model="inputtext.verify" name="login[verify]" type="text" class="form-control" placeholder="请输入验证码">
                     <a href="javascript:;" id="toggle" class="input-group-btn imgverify" v-on:click="updateCaptcha">
                         <img id="imgverify" src="{{captcha_src()}}" title="点击图片更换验证码"  />
                     </a>
@@ -41,12 +41,12 @@
 
              <div v-if="isMobile" class="input-group-vertical">
 
-                 <input v-model="inputtext.login_type" name="login_type" type="hidden" class="form-control " value="mobile">
-                 <input v-model="inputtext.username" name="username" type="text" class="form-control " placeholder="请输入手机号登录">
-                 <input v-model="inputtext.password" name="password" type="password" class="form-control password" placeholder="请输入登录密码">
+                 <input name="login[login_type]" type="hidden" class="form-control " value="mobile">
+                 <input v-model="inputtext.username" name=login["username]" type="text" class="form-control " placeholder="请输入手机号登录">
+                 <input v-model="inputtext.password" name="login[password]" type="password" class="form-control password" placeholder="请输入登录密码">
 
                  <div v-if="isCode" class="input-group">
-                     <input v-model="inputtext.verify" name="verify" type="text" class="form-control" placeholder="请输入验证码">
+                     <input v-model="inputtext.verify" name="login[verify]" type="text" class="form-control" placeholder="请输入验证码">
                      <a href="javascript:;" id="toggle" class="input-group-btn imgverify">
                          <img id="imgverify" src="{{captcha_src()}}" title="点击图片更换验证码" v-on:click="updateCaptcha"/>
                      </a>
@@ -55,12 +55,11 @@
 
             <div class="form-inline mb15" >
                 <div class="checkbox">
-                    <input v-model="inputtext.rember" type="checkbox" value="true" id="rember" name="rember">
+                    <input v-model="inputtext.rember" type="checkbox" value="true" name="login[rember]" id="rember">
                     <label for="rember">记住用户名</label>
                 </div>
             </div>
             <div class="login-submit text-center">
-                <input name="token" value="" type="hidden" />
                 <input type="submit" id="submit" name="submit" value="登录" class="btn btn-primary btn-block" />
                 <div class="">
                     <a v-if="ifRegisterOpen" href="{{url('/register')}}" class="color-default pull-left">立即注册</a>
@@ -99,7 +98,6 @@
         },
         methods : {
             doLogin : function (event) {
-                console.log(this.inputtext);
                 if(this.isCode == true){
                     var verify  = this.inputtext.verify;
                     if(verify == undefined || verify == '' ){
@@ -111,7 +109,7 @@
                         this.msg = '';
                     }
                 }
-                
+
                 var  username = this.inputtext.username;
                 var password = this.inputtext.password;
                 if(username == undefined || password == undefined || username == '' || password == '' ){
@@ -122,7 +120,11 @@
                     this.isShowError = false;
                     this.msg = '';
                 }
-
+                var fromData = $("#form1").serialize();
+                console.log(fromData);
+                $.post('{{url('login/dologin')}}',fromData,function(result){
+                    console.log(result)
+                },'json');
             },
             updateCaptcha : function (event) {
                 var url = event.target.src;

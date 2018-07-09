@@ -28,7 +28,7 @@ Route::group([ 'prefix' => 'home', 'middleware' => ['checkUserLogin'] ], functio
  */
 Route::group([ 'prefix' => 'login'], function () {
     Route::get('/', 'Home\LoginController@index');
-    Route::get('/dologin', 'Home\LoginController@dologin');
+    Route::post('/dologin', 'Home\LoginController@dologin');
     Route::get('/index/{login_type?}', 'Home\LoginController@index')->name('login_type');
     Route::get('/logout', 'Home\LoginController@logout');
 });

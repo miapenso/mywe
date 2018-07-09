@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -13,7 +14,8 @@ class LoginController extends Controller
         $data['login_type'] = $login_type;
         return view('web.login',$data);
     }
-    public function doLogin(){
-       var_dump($_POST);
+    public function dologin(Request $request){
+       $login = $request->input('login');
+       echo json_encode($login);
     }
 }
